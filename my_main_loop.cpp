@@ -12,7 +12,7 @@ using namespace simulation2d;
 void my_main_loop(hdsim& sim)
 {
   write_snapshot_to_hdf5(sim,"initial.h5");
-  const double tf = 1;
+  const double tf = 0.01;
   SafeTimeTermination term_cond(tf,1e6);
   MultipleDiagnostics diag
     (VectorInitialiser<DiagnosticFunction*>

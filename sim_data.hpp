@@ -8,9 +8,9 @@
 #include "source/newtonian/common/hllc.hpp"
 #include "source/newtonian/two_dimensional/point_motions/eulerian.hpp"
 #include "source/newtonian/two_dimensional/source_terms/ConstantGravity.hpp"
-#include "source/newtonian/two_dimensional/simple_flux_calculator.hpp"
 #include "source/newtonian/two_dimensional/simple_extensive_updater.hpp"
 #include "source/newtonian/two_dimensional/simple_cell_updater.hpp"
+#include "gravity_support.hpp"
 
 class SimData
 {
@@ -30,7 +30,7 @@ private:
   const ConstantGravity grav_acc_;
   const ConservativeForce force_;
   const SimpleCFL tsf_;
-  const SimpleFluxCalculator fc_;
+  const GravitySupport fc_;
   const SimpleExtensiveUpdater eu_;
   const SimpleCellUpdater cu_;
   hdsim sim_;
