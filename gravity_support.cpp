@@ -52,7 +52,7 @@ namespace {
     if(!b(edge.neighbors.second))
       return pair<bool,pair<size_t,bool> >
 	(true,pair<size_t,bool>
-	 (static_cast<size_t>(edge.neighbors.second),
+	 (static_cast<size_t>(edge.neighbors.first),
 	  true));
     return pair<bool,pair<size_t,bool> >
       (false,pair<size_t,bool>(0,false));
