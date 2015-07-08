@@ -9,6 +9,7 @@ public:
 
   GravitySupport(const Tessellation& tess,
 		 const PhysicalGeometry& pg,
+		 const double acceleration,
 		 const RiemannSolver& rs);
 
   vector<Extensive> operator()
@@ -22,6 +23,7 @@ public:
 
 private:
   const double bottom_area_;
+  const double acceleration_;
   const RiemannSolver& rs_;
 
   Conserved calcHydroFlux(const Tessellation& tess,

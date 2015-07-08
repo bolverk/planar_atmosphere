@@ -16,7 +16,10 @@ class SimData
 {
 public:
 
-  SimData(void);
+  SimData(double adiabatic_index,
+	  double acceleration,
+	  double entropy,
+	  double atmosphere_height);
 
   hdsim& getSim(void);
 

@@ -90,17 +90,18 @@ namespace {
 
 GravitySupport::GravitySupport(const Tessellation& tess,
 			       const PhysicalGeometry& pg,
+			       const double acceleration,
 			       const RiemannSolver& rs):
   bottom_area_(calc_bottom_area(tess,pg)),
+  acceleration_(acceleration),
   rs_(rs) {}
 
 namespace {
-  double calc_total_downward_momentum(const vector<Extensive>& extensives)
+  double calc_total_mass(const vector<Extensive>& extensives)
   {
-    const Vector2D dir(0,-1);
     double res = 0;
     for(size_t i=0;i<extensives.size();++i)
-      res += ScalarProd(extensives[i].momentum,dir);
+      res += extensives[i].mass;
     return res;
   }
 }
@@ -112,10 +113,10 @@ vector<Extensive> GravitySupport::operator()
    const vector<Extensive>& extensives,
    const EquationOfState& eos,
    const double /*time*/,
-   const double dt) const
+   const double /*dt*/) const
 {
   const double support =
-    fmax(0,calc_total_downward_momentum(extensives)/bottom_area_/dt);
+    calc_total_mass(extensives)*acceleration_/bottom_area_;
   vector<Extensive> res(tess.getAllEdges().size());
   for(size_t i=0;i<tess.getAllEdges().size();++i){
     const Conserved hydro_flux = calcHydroFlux
