@@ -1,18 +1,34 @@
 import os
+import glob
+
+debug = ARGUMENTS.get('debug',0)
+compiler = ARGUMENTS.get('compiler','clang++')
+
+linkflags = ''
+if compiler=='g++':
+    cflags = ' -Wfatal-errors '
+    if int(debug):
+        cflags += ' -Og -g -pg '
+        linkflags = ' -g -pg '
+    else:
+        cflags += ' -O3 '
+elif compiler=='clang++':
+    cflags = '-Weverything -Werror -ferror-limit=1 -Wno-error=padded'
+    if int(debug):
+        cflags += ' -O0 -g -pg'
+        linkflags = ' -g -pg'
+    else:
+        cflags += ' -O3 -march=native'
+else:
+    raise NameError('unsupported compiler')
 
 env = Environment(ENV = os.environ,
-                  CXX='clang++',
-                  #CXX='g++',
+                  CXX=compiler,
                   CPPPATH=[os.environ['RICH_ROOT']+'/source',
                            os.environ['RICH_ROOT']],
                   LIBPATH=[os.environ['RICH_ROOT'],'.',os.environ['HDF5_LIB_PATH']],
-                  LIBS=['rich','hdf5','hdf5_cpp','gfortran'],
-                  #LINKFLAGS=' -g -Og ',
-                  LINKFLAGS='',
-                  #F90FLAGS=' -g -Og -ffpe-trap=invalid,overflow,underflow,zero,denormal -ffpe-summary=all ',
-                  F90FLAGS=' -O2 ',
-                  #CXXFLAGS='-Weverything -Werror -ferror-limit=1 -Wno-error=padded -g -O0 ')
-                  #CXXFLAGS=' -g -Og -Wfatal-errors ')
-                  CXXFLAGS=' -Weverything -Werror -ferror-limit=1 -Wno-error=padded -O2 ')
+                  LIBS=['rich','hdf5','hdf5_cpp'],
+                  LINKFLAGS=linkflags,
+                  CXXFLAGS=cflags)
                   
 env.Program('rich',Glob('*.cpp'))
