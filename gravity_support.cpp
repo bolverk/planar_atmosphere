@@ -159,18 +159,22 @@ namespace {
        cell,
        0,
        remove_parallel_component
-       (tess.GetMeshPoint(edge.neighbors.first)-
+       (tess.GetMeshPoint(edge.neighbors.second)-
 	edge.vertices.second,p),
        p);
   }
 
-  Conserved support_riemann(double support,
+  /*
+  Conserved support_riemann(const RiemannSolver& rs,
+			    const Tessellation& tess,
+			    const Edge& edge,
+			    const ComputationalCell& cc,
+			    const EquationOfState& eos,
 			    bool left_real)
   {
-    return left_real ?
-      Conserved(0,Vector2D(0,-support),0) :
-      Conserved(0,Vector2D(0,support),0);
+    return reflect_riemann(rs,tess,edge,cc,eos,left_real);
   }
+  */
 
   Conserved regular_riemann
   (const RiemannSolver& rs,
@@ -210,7 +214,7 @@ Conserved GravitySupport::calcHydroFlux
  const vector<ComputationalCell>& cells,
  const EquationOfState& eos,
  const size_t i,
- double support) const
+ double /*support*/) const
 {
   const Edge& edge = tess.GetEdge(static_cast<int>(i));
   const Bracket b(0,tess.GetPointNo());
@@ -218,7 +222,13 @@ Conserved GravitySupport::calcHydroFlux
     assert(b(edge.neighbors.second));
     const Vector2D r = tess.GetMeshPoint(edge.neighbors.second);
     if(r.y>edge.vertices.first.y && r.y>edge.vertices.second.y)
-      return support_riemann(support,false);
+      return reflect_riemann
+	(rs_,
+	 tess,
+	 edge,
+	 cells.at(static_cast<size_t>(edge.neighbors.second)),
+	 eos,
+	 false);
     return reflect_riemann
       (rs_,
        tess,
@@ -230,7 +240,13 @@ Conserved GravitySupport::calcHydroFlux
   if(!b(edge.neighbors.second)){
     const Vector2D r = tess.GetMeshPoint(edge.neighbors.first);
     if(r.y>edge.vertices.first.y && r.y>edge.vertices.second.y)
-      return support_riemann(support,true);
+      return reflect_riemann
+	(rs_,
+	 tess,
+	 edge,
+	 cells.at(static_cast<size_t>(edge.neighbors.first)),
+	 eos,
+	 true);
     return reflect_riemann
       (rs_,
        tess,
