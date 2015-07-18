@@ -17,7 +17,7 @@ class SimData
 public:
 
   SimData(double adiabatic_index,
-	  double acceleration,
+	  const Vector2D& acceleration,
 	  double entropy,
 	  double atmosphere_height);
 

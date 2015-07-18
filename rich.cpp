@@ -7,7 +7,7 @@ using namespace std;
 int main(void)
 {
   SimData sim_data(5./3.,
-		   10,
+		   Vector2D(0,-10),
 		   1,
 		   1.1);
   hdsim& sim = sim_data.getSim();
