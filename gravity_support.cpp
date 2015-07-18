@@ -1,4 +1,5 @@
 #include "gravity_support.hpp"
+#include "bracket.hpp"
 
 namespace {
 
@@ -21,23 +22,6 @@ namespace {
 	cells[static_cast<size_t>(edge.neighbors.second)].tracers.find(name)->second;
     return 0;
   }
-
-  class Bracket
-  {
-  public:
-
-    Bracket(const double low, const double high):
-      low_high_(pair<double,double>(low,high)) {}
-
-    bool operator()(int arg) const
-    {
-      return ((arg>=low_high_.first)&&
-	      (arg<=low_high_.second));
-    }
-
-  private:
-    const pair<int,int> low_high_;
-  };
 
   pair<bool,pair<size_t,bool> > check_boundary_edge
   (const Edge& edge, const Bracket& b)
@@ -134,36 +118,6 @@ vector<Extensive> GravitySupport::operator()
 }
 
 namespace {
-  Conserved reflect_riemann(const RiemannSolver& rs,
-			    const Tessellation& tess,
-			    const Edge& edge,
-			    const ComputationalCell& cc,
-			    const EquationOfState& eos,
-			    bool left_real)
-  {
-    const Primitive cell = convert_to_primitive(cc,eos);
-    const Vector2D& p = Parallel(edge);
-    return left_real ?
-      rotate_solve_rotate_back
-      (rs,
-       cell,
-       reflect(cell,p),
-       0,
-       remove_parallel_component
-       (edge.vertices.second -
-	tess.GetMeshPoint(edge.neighbors.first),p),
-       p) :
-      rotate_solve_rotate_back
-      (rs,
-       reflect(cell,p),
-       cell,
-       0,
-       remove_parallel_component
-       (tess.GetMeshPoint(edge.neighbors.second)-
-	edge.vertices.second,p),
-       p);
-  }
-
     Conserved support_riemann(const RiemannSolver& rs,
 			      const Tessellation& tess,
 			      const Edge& edge,
@@ -242,43 +196,24 @@ Conserved GravitySupport::calcHydroFlux
   const Bracket b(0,tess.GetPointNo());
   if(!b(edge.neighbors.first)){
     assert(b(edge.neighbors.second));
-    const Vector2D r = tess.GetMeshPoint(edge.neighbors.second);
-    if(r.y>edge.vertices.first.y && r.y>edge.vertices.second.y)
-      return support_riemann
-	(rs_,
-	 tess,
-	 edge,
-	 cells.at(static_cast<size_t>(edge.neighbors.second)),
-	 eos,
-	 support,
-	 false);
-    return reflect_riemann
+    return support_riemann
       (rs_,
        tess,
        edge,
        cells.at(static_cast<size_t>(edge.neighbors.second)),
        eos,
+       support,
        false);
   }
-  if(!b(edge.neighbors.second)){
-    const Vector2D r = tess.GetMeshPoint(edge.neighbors.first);
-    if(r.y>edge.vertices.first.y && r.y>edge.vertices.second.y)
-      return support_riemann
-	(rs_,
-	 tess,
-	 edge,
-	 cells.at(static_cast<size_t>(edge.neighbors.first)),
-	 eos,
-	 support,
-	 true);
-    return reflect_riemann
+  if(!b(edge.neighbors.second))
+    return support_riemann
       (rs_,
        tess,
        edge,
        cells.at(static_cast<size_t>(edge.neighbors.first)),
        eos,
+       support,
        true);
-  }
   return regular_riemann(rs_,
 			 tess,
 			 point_velocities,
