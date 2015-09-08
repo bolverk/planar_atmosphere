@@ -1,6 +1,6 @@
 # Planar Atmosphere
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/b'Z55VhOL3Bi8'/0.jpg)](http://www.youtube.com/watch?v=b'Z55VhOL3Bi8')
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/b'u8lerS5IC3k'/0.jpg)](http://www.youtube.com/watch?v=b'u8lerS5IC3k')
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/b'rk7292z6TPI'/0.jpg)](http://www.youtube.com/watch?v=b'rk7292z6TPI')
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/b'7enC4ZDHE5U'/0.jpg)](http://www.youtube.com/watch?v=b'7enC4ZDHE5U')
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/b'-kIOe071nEM'/0.jpg)](http://www.youtube.com/watch?v=b'-kIOe071nEM')
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/XCMDTtaA6BI/0.jpg)](http://www.youtube.com/watch?v=XCMDTtaA6BI)
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/GiIPSnM_gEg/0.jpg)](http://www.youtube.com/watch?v=GiIPSnM_gEg)
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/M2D-0QTxmN4/0.jpg)](http://www.youtube.com/watch?v=M2D-0QTxmN4)
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/nq-qYjv9LqQ/0.jpg)](http://www.youtube.com/watch?v=nq-qYjv9LqQ)
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/2l8eCGh7dIw/0.jpg)](http://www.youtube.com/watch?v=2l8eCGh7dIw)
